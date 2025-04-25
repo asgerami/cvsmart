@@ -13,8 +13,9 @@ Then Setup the Backend
 
 Create a virtual environment:
 cd backend
+
 python -m venv venv
-# For Linux run: source venv/bin/activate  # On Windows: venv\Scripts\activate
+For Linux run: source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 Install dependencies:
 pip install -r requirements.txt
