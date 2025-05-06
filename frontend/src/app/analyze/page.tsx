@@ -320,78 +320,34 @@ export default function ResumeAnalyzer() {
     </div>
   );
 }
-
 function AnalysisDisplay({ analysis }: { analysis: string }) {
-  // Convert markdown-like text to JSX
-  const lines = analysis.split("\n");
+  // Process the analysis text to enhance formatting
+  const processedAnalysis = analysis
+    // Replace markdown headers with styled sections
+    .replace(/^# (.*$)/gm, '<div class="text-2xl font-bold mb-4 text-white">$1</div>')
+    .replace(/^## (.*$)/gm, '<div class="text-xl font-semibold mb-2 bg-gradient-to-r from-purple-400 to-cyan-400 text-transparent bg-clip-text">$1</div>')
+    .replace(/^### (.*$)/gm, '<div class="text-lg font-medium mt-6 mb-3 text-white">$1</div>')
+    // Handle bullet points
+    .replace(/^- (.*$)/gm, '<div class="flex items-start mb-2"><div class="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-2 mr-2"></div><p class="text-white/80">$1</p></div>')
+    // Handle numbered lists
+    .replace(/^(\d+)\. (.*$)/gm, '<div class="flex items-start mb-3"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center mr-3 flex-shrink-0"><span class="text-xs font-medium">$1</span></div><p class="text-white/80">$2</p></div>')
+    // Handle bold text (replace ** with styled spans)
+    .replace(/\*\*(.*?)\*\*/g, '<span class="font-semibold text-purple-400">$1</span>')
+    // Preserve emojis and add styling to sections
+    .replace(/(✅|⚠️|❌|🌟|🔍|🛠️|📊|🔑|✏️|📁|🖋️|🎯)/g, '<span class="text-xl mr-1">$1</span>');
+
+  // Split by double newlines to create paragraphs
+  const paragraphs = processedAnalysis.split('\n\n');
 
   return (
-    <div>
-      {lines.map((line, index) => {
-        if (line.startsWith("# ")) {
-          return (
-            <h1 key={index} className="text-2xl font-bold mb-4 text-white">
-              {line.substring(2)}
-            </h1>
-          );
-        } else if (line.startsWith("## ")) {
-          return (
-            <div key={index} className="mb-6">
-              <h2 className="text-xl font-semibold mb-2 bg-gradient-to-r from-purple-400 to-cyan-400 text-transparent bg-clip-text">
-                {line.substring(3)}
-              </h2>
-              <div className="w-16 h-1 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full"></div>
-            </div>
-          );
-        } else if (line.startsWith("### ")) {
-          return (
-            <h3
-              key={index}
-              className="text-lg font-medium mt-6 mb-3 text-white"
-            >
-              {line.substring(4)}
-            </h3>
-          );
-        } else if (line.startsWith("- ")) {
-          return (
-            <div key={index} className="flex items-start mb-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-2 mr-2"></div>
-              <p className="text-white/80">{line.substring(2)}</p>
-            </div>
-          );
-        } else if (line.startsWith("**")) {
-          const parts = line.split("**: ");
-          if (parts.length === 2) {
-            return (
-              <div key={index} className="mb-2">
-                <span className="font-semibold text-purple-400">
-                  {parts[0].replace("**", "")}
-                </span>
-                <span className="text-white/80">: {parts[1]}</span>
-              </div>
-            );
-          }
-        } else if (line.match(/^\d+\./)) {
-          const number = line.match(/^\d+/)?.[0] || "";
-          const text = line.replace(/^\d+\.\s/, "");
-          return (
-            <div key={index} className="flex items-start mb-3">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center mr-3 flex-shrink-0">
-                <span className="text-xs font-medium">{number}</span>
-              </div>
-              <p className="text-white/80">{text}</p>
-            </div>
-          );
-        } else if (line.trim() === "") {
-          return <div key={index} className="h-4"></div>;
-        } else {
-          return (
-            <p key={index} className="mb-4 text-white/80">
-              {line}
-            </p>
-          );
-        }
-      })}
+    <div className="analysis-container">
+      {paragraphs.map((paragraph, index) => (
+        <div 
+          key={index} 
+          className="mb-4"
+          dangerouslySetInnerHTML={{ __html: paragraph.replace(/\n/g, '<br/>') }}
+        />
+      ))}
     </div>
   );
 }
