@@ -387,17 +387,26 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-6">Team Details</h4>
               <ul className="space-y-4">
-                {["About", "Contact", "Privacy", "Terms"].map((item) => (
-                  <li key={item}>
-                    <Link
-                      href="#"
-                      className="text-white/70 hover:text-white transition-colors"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              {["About", "Contact", "Privacy", "Terms"].map((item) => {
+  const hrefMap: { [key: string]: string } = {
+    About: "/about",
+    Contact: "/contact",
+    Privacy: "/privacy",
+    Terms: "/terms",
+  };
+  return (
+    <li key={item}>
+      <Link
+        href={hrefMap[item] || "#"}
+        className="text-white/70 hover:text-white transition-colors"
+      >
+        {item}
+      </Link>
+    </li>
+  );
+})}
+
+                      </ul>
             </div>
           </div>
 
