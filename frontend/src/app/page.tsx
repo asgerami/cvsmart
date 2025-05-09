@@ -368,21 +368,23 @@ export default function Home() {
               </div>
             </div>
 
-            <div>
-              <h4 className="text-lg font-semibold mb-6">Product</h4>
-              <ul className="space-y-4">
-                {["Features", "FAQ"].map((item) => (
-                  <li key={item}>
-                    <Link
-                      href="#"
-                      className="text-white/70 hover:text-white transition-colors"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+       
+<div>
+  <h4 className="text-lg font-semibold mb-6">Product</h4>
+  <ul className="space-y-4">
+    {["Features", "FAQ"].map((item) => (
+      <li key={item}>
+        <Link
+          href={item === "FAQ" ? "/faq" : "#"}
+          className="text-white/70 hover:text-white transition-colors"
+        >
+          {item}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
+
 
             <div>
               <h4 className="text-lg font-semibold mb-6">Team Details</h4>
