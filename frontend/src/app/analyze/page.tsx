@@ -252,7 +252,7 @@ export default function ResumeAnalyzer() {
                     </p>
                     <p className="text-white/30 text-center text-sm mt-2 max-w-md">
                       Upload your resume and a job description, then click
-                      "Analyze Resume" to get started
+                      &quot;Analyze Resume&quot; to get started
                     </p>
                   </div>
                 )}
