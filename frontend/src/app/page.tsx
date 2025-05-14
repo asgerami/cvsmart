@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import {
   ArrowRight,
   Sparkles,
@@ -16,6 +18,27 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const supabase = createClientComponentClient();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        setIsSignedIn(!!session);
+      } catch (error) {
+        console.error("Error checking auth status:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
       {/* Animated Background */}
@@ -49,6 +72,35 @@ export default function Home() {
             >
               How It Works
             </Link>
+            {!isLoading && (
+              <div className="flex items-center space-x-4 ml-4">
+                {isSignedIn ? (
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white border-0 rounded-full px-4"
+                  >
+                    <Link href="/dashboard" className="flex items-center">
+                      Dashboard
+                    </Link>
+                  </Button>
+                ) : (
+                  <>
+                    <Link
+                      href="/login"
+                      className="text-white/70 hover:text-white transition-colors"
+                    >
+                      Sign In
+                    </Link>
+                    <Button
+                      size="sm"
+                      className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white border-0 rounded-full px-4"
+                    >
+                      <Link href="/signup">Sign Up</Link>
+                    </Button>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </nav>
@@ -89,10 +141,12 @@ export default function Home() {
                   variant="outline"
                   className="border-white/20 hover:bg-white/10 rounded-full px-8"
                 >
-                  <Link href="#how-it-works" className="flex items-center w-full h-full">
-                  See How It Works
+                  <Link
+                    href="#how-it-works"
+                    className="flex items-center w-full h-full"
+                  >
+                    See How It Works
                   </Link>
-                  
                 </Button>
               </div>
             </div>
@@ -303,7 +357,7 @@ export default function Home() {
                     className="bg-white text-purple-700 hover:bg-white/90 rounded-full px-8"
                   >
                     <Link href="/analyze" className="flex items-center">
-                    Get Started Free <ArrowRight className="ml-2 h-4 w-4" />
+                      Get Started Free <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
                 </div>
@@ -368,47 +422,44 @@ export default function Home() {
               </div>
             </div>
 
-       
-<div>
-  <h4 className="text-lg font-semibold mb-6">Product</h4>
-  <ul className="space-y-4">
-    {["Features", "FAQ"].map((item) => (
-      <li key={item}>
-        <Link
-          href={item === "FAQ" ? "/faq" : "#"}
-          className="text-white/70 hover:text-white transition-colors"
-        >
-          {item}
-        </Link>
-      </li>
-    ))}
-  </ul>
-</div>
-
+            <div>
+              <h4 className="text-lg font-semibold mb-6">Product</h4>
+              <ul className="space-y-4">
+                {["Features", "FAQ"].map((item) => (
+                  <li key={item}>
+                    <Link
+                      href={item === "FAQ" ? "/faq" : "#"}
+                      className="text-white/70 hover:text-white transition-colors"
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <div>
               <h4 className="text-lg font-semibold mb-6">Team Details</h4>
               <ul className="space-y-4">
-              {["About", "Contact", "Privacy", "Terms"].map((item) => {
-  const hrefMap: { [key: string]: string } = {
-    About: "/about",
-    Contact: "/contact",
-    Privacy: "/privacy",
-    Terms: "/terms",
-  };
-  return (
-    <li key={item}>
-      <Link
-        href={hrefMap[item] || "#"}
-        className="text-white/70 hover:text-white transition-colors"
-      >
-        {item}
-      </Link>
-    </li>
-  );
-})}
-
-                      </ul>
+                {["About", "Contact", "Privacy", "Terms"].map((item) => {
+                  const hrefMap: { [key: string]: string } = {
+                    About: "/about",
+                    Contact: "/contact",
+                    Privacy: "/privacy",
+                    Terms: "/terms",
+                  };
+                  return (
+                    <li key={item}>
+                      <Link
+                        href={hrefMap[item] || "#"}
+                        className="text-white/70 hover:text-white transition-colors"
+                      >
+                        {item}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
 
