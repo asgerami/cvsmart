@@ -7,11 +7,12 @@ Then Install frontend dependencies:
 - cd frontend
 - npm install
 
-Create a '.env.local' file and add the below
+Create a '.env.local' file and add the
 \`\`\`
 NEXT_PUBLIC_SUPABASE_URL=https://jcxahlzszwvmvmzsbnwv.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjeGFobHpzend2bXZtenNibnd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxNDc3MDksImV4cCI6MjA2MjcyMzcwOX0.zUcZB8qL5_CGKXWMww41od0tb3ImqwSgxqxSgz--jxI
 NEXT_PUBLIC_API_URL=http://localhost:5000/api
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjeGFobHpzend2bXZtenNibnd2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NzE0NzcwOSwiZXhwIjoyMDYyNzIzNzA5fQ.2pE0ijIdrBghunHmlIeFHApIADAuAElCBGretwnI60U
 
 \`\`\`
 
