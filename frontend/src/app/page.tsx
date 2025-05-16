@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   Sparkles,
@@ -14,12 +15,33 @@ import {
   Facebook,
   Instagram,
   Linkedin,
+  LogOut,
+  LayoutDashboard,
+  User,
+  Settings,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuSeparator,
+//   DropdownMenuTrigger,
+// } from "@components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
 
 export default function Home() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const router = useRouter();
+  const supabase = createClientComponentClient();
 
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -38,6 +60,17 @@ export default function Home() {
 
     checkAuthStatus();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      setIsSignedIn(false);
+      setUserEmail(null);
+      router.refresh();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
@@ -75,14 +108,70 @@ export default function Home() {
             {!isLoading && (
               <div className="flex items-center space-x-4 ml-4">
                 {isSignedIn ? (
-                  <Button
-                    size="sm"
-                    className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white border-0 rounded-full px-4"
-                  >
-                    <Link href="/dashboard" className="flex items-center">
-                      Dashboard
-                    </Link>
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        size="sm"
+                        className="transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg active:scale-100 p-0 h-auto bg-transparent"
+                      >
+                        <img
+                          src="/user-profile.png"
+                          alt="User Profile"
+                          width={40}
+                          height={40}
+                          className="rounded-full transition-transform duration-300"
+                        />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      align="end"
+                      className="w-56 bg-gray-900 border border-gray-800 text-white"
+                    >
+                      {userEmail && (
+                        <>
+                          <div className="px-2 py-1.5 text-sm font-medium text-gray-400 truncate">
+                            {userEmail}
+                          </div>
+                          <DropdownMenuSeparator className="bg-gray-800" />
+                        </>
+                      )}
+                      <DropdownMenuItem className="text-white hover:bg-gray-800 cursor-pointer">
+                        <Link
+                          href="/dashboard"
+                          className="flex items-center w-full"
+                        >
+                          <LayoutDashboard className="mr-2 h-4 w-4" />
+                          <span>Dashboard</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-white hover:bg-gray-800 cursor-pointer">
+                        <Link
+                          href="/profile"
+                          className="flex items-center w-full"
+                        >
+                          <User className="mr-2 h-4 w-4" />
+                          <span>Profile</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-white hover:bg-gray-800 cursor-pointer">
+                        <Link
+                          href="/setting"
+                          className="flex items-center w-full"
+                        >
+                          <Settings className="mr-2 h-4 w-4" />
+                          <span>Settings</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="bg-gray-800" />
+                      <DropdownMenuItem
+                        onClick={handleLogout}
+                        className="text-red-400 hover:text-red-300 hover:bg-gray-800 cursor-pointer"
+                      >
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Log out</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 ) : (
                   <>
                     <Link
