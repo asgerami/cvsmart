@@ -1,10 +1,12 @@
 "use client";
 
 import ProtectedRoute from "@/components/auth/protected-route";
-import UserProfile from "@/components/auth/user-profile";
+import DashboardStats from "@/components/dashboard/dashboard-stats";
+import RecentActivity from "@/components/dashboard/recent-activity";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sparkles } from "lucide-react";
 
-export default function Dashboard() {
+export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-black text-white overflow-hidden">
@@ -16,29 +18,86 @@ export default function Dashboard() {
         </div>
 
         <div className="container mx-auto py-16 px-6 relative z-10">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <div className="flex items-center space-x-4 mb-8">
               <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-md flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-cyan-400 to-fuchsia-400 text-transparent bg-clip-text">
-                Your Dashboard
+                Dashboard
               </h1>
             </div>
 
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm mb-8">
-              <span className="flex h-2 w-2 rounded-full bg-cyan-500 mr-2"></span>
-              <span>Profile Information</span>
-            </div>
+            <Tabs defaultValue="overview" className="w-full">
+              <TabsList className="mb-6 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-1">
+                <TabsTrigger
+                  value="overview"
+                  className="text-white data-[state=active]:bg-white/20 rounded-md px-4 py-2"
+                >
+                  Overview
+                </TabsTrigger>
+                <TabsTrigger
+                  value="resumes"
+                  className="text-white data-[state=active]:bg-white/20 rounded-md px-4 py-2"
+                >
+                  My Resumes
+                </TabsTrigger>
+                <TabsTrigger
+                  value="applications"
+                  className="text-white data-[state=active]:bg-white/20 rounded-md px-4 py-2"
+                >
+                  Applications
+                </TabsTrigger>
+              </TabsList>
 
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 mb-8">
-              <p className="text-white/70 mb-4">
-                Welcome to your personal dashboard. Here you can view and manage
-                your profile information.
-              </p>
-            </div>
+              <TabsContent value="overview" className="space-y-6">
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+                  <DashboardStats />
+                </div>
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+                  <RecentActivity />
+                </div>
+              </TabsContent>
 
-            <UserProfile />
+              <TabsContent value="resumes">
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+                  <h3 className="text-xl font-semibold mb-4 text-white">
+                    My Resumes
+                  </h3>
+                  <p className="text-white/70">
+                    You haven&apos;t uploaded any resumes yet. Get started by
+                    analyzing your first resume.
+                  </p>
+                  <div className="mt-4">
+                    <a
+                      href="/analyze"
+                      className="inline-flex items-center px-4 py-2 bg-gradient-to-br from-purple-500 to-cyan-500 text-white rounded-md hover:opacity-90 transition"
+                    >
+                      Upload Resume
+                    </a>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="applications">
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+                  <h3 className="text-xl font-semibold mb-4 text-white">
+                    Job Applications
+                  </h3>
+                  <p className="text-white/70">
+                    Track your job applications and their status here.
+                  </p>
+                  <div className="mt-4 text-center p-8 border border-dashed border-white/20 rounded-lg">
+                    <p className="text-white/60 mb-2">
+                      No applications tracked yet
+                    </p>
+                    <button className="text-cyan-400 hover:underline">
+                      + Add your first application
+                    </button>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </div>
