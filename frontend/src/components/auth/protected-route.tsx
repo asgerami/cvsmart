@@ -33,8 +33,13 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="animate-spin h-8 w-8 text-primary" />
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-black px-4">
+        <div className="flex flex-col items-center gap-4 text-white">
+          <div className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-full p-6 shadow-lg">
+            <Loader2 className="animate-spin h-8 w-8 text-cyan-400" />
+          </div>
+          <p className="text-sm text-white/70">Checking authentication...</p>
+        </div>
       </div>
     );
   }

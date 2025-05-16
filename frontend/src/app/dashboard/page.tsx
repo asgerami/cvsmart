@@ -1,3 +1,5 @@
+"use client"
+
 import ProtectedRoute from "@/components/auth/protected-route"
 import UserProfile from "@/components/auth/user-profile"
 import { Sparkles } from "lucide-react"
