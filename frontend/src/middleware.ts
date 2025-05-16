@@ -28,7 +28,7 @@ export async function middleware(req: NextRequest) {
 
   // If accessing a public route while authenticated
   if (session && isAuthRoute) {
-    const redirectUrl = new URL("/dashboard", req.url);
+    const redirectUrl = new URL("/", req.url);
     return NextResponse.redirect(new URL(redirectUrl));
   }
 
