@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import ProtectedRoute from "@/components/auth/protected-route"
-import UserProfile from "@/components/auth/user-profile"
-import { Sparkles } from "lucide-react"
+import ProtectedRoute from "@/components/auth/protected-route";
+import UserProfile from "@/components/auth/user-profile";
+import { Sparkles } from "lucide-react";
 
 export default function Dashboard() {
   return (
@@ -33,7 +33,8 @@ export default function Dashboard() {
 
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 mb-8">
               <p className="text-white/70 mb-4">
-                Welcome to your personal dashboard. Here you can view and manage your profile information.
+                Welcome to your personal dashboard. Here you can view and manage
+                your profile information.
               </p>
             </div>
 
@@ -42,5 +43,5 @@ export default function Dashboard() {
         </div>
       </div>
     </ProtectedRoute>
-  )
+  );
 }
