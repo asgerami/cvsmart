@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
@@ -15,15 +15,37 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Alert, AlertDescription } from "../ui/Alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 
 export default function UpdatePasswordForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+  const [hasSession, setHasSession] = useState(false);
   const router = useRouter();
   const supabase = createClientComponentClient();
+
+  // Check if user has a valid session
+  useEffect(() => {
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setHasSession(!!session);
+      setCheckingSession(false);
+
+      // If no session, redirect to login
+      if (!session) {
+        router.push(
+          "/login?message=Password reset link is invalid or has expired"
+        );
+      }
+    };
+
+    checkSession();
+  }, [supabase, router]);
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,6 +76,20 @@ export default function UpdatePasswordForm() {
       setLoading(false);
     }
   };
+
+  if (checkingSession) {
+    return (
+      <Card className="w-full max-w-md mx-auto">
+        <CardContent className="pt-6 flex justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!hasSession) {
+    return null; // We'll redirect in the useEffect
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black px-4 py-12 flex items-center justify-center">

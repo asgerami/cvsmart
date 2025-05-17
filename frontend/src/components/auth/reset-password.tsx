@@ -32,7 +32,7 @@ export default function ResetPasswordForm() {
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/reset-password`,
+        redirectTo: `${window.location.origin}/auth/callback?type=recovery`,
       });
 
       if (error) {
@@ -63,7 +63,10 @@ export default function ResetPasswordForm() {
         <CardContent>
           <form onSubmit={handleResetPassword} className="space-y-4">
             {error && (
-              <Alert variant="error" className="border-red-500 bg-red-500/10 text-red-400">
+              <Alert
+                variant="error"
+                className="border-red-500 bg-red-500/10 text-red-400"
+              >
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
@@ -87,7 +90,11 @@ export default function ResetPasswordForm() {
                 className="bg-white/10 border border-white/20 placeholder-white/50 text-white focus:ring-2 focus:ring-cyan-500"
               />
             </div>
-            <Button type="submit" disabled={loading} className="w-full transition-all duration-300">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full transition-all duration-300"
+            >
               {loading ? "Sending link..." : "Send Reset Link"}
             </Button>
           </form>
@@ -95,7 +102,10 @@ export default function ResetPasswordForm() {
         <CardFooter className="flex justify-center">
           <p className="text-sm text-white/60">
             Remembered your password?{" "}
-            <a href="/login" className="text-cyan-400 hover:underline transition-colors">
+            <a
+              href="/login"
+              className="text-cyan-400 hover:underline transition-colors"
+            >
               Back to login
             </a>
           </p>

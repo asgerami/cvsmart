@@ -29,7 +29,7 @@ export default function SettingsPage() {
         <div className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-gradient-to-br from-fuchsia-600 to-purple-600 rounded-full filter blur-[150px] opacity-30 animate-[pulse_10s_ease-in-out_infinite]"></div>
 
         <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8 relative z-10">
-          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-purple-400 via-cyan-400 to-fuchsia-400 text-transparent bg-clip-text mb-8 animate-[fadeIn_1s_ease-out]">
+          <h1 className="text-4xl font-bold text-white bg-clip-text">
             Account Settings
           </h1>
 
