@@ -188,7 +188,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative z-10 pt-20 pb-32">
+      <section className="relative z-10 pt-20 pb-32"> 
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
@@ -221,7 +221,9 @@ export default function Home() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-white/20 hover:bg-white/10 rounded-full px-8"
+                  className="rounded-full px-8 py-4 bg-slate-100 text-black border border-slate-900 
+           hover:bg-slate-900 hover:text-slate-100 hover:border-slate-800
+           transition-all duration-300 shadow-md hover:shadow-lg"
                 >
                   <Link
                     href="#how-it-works"
