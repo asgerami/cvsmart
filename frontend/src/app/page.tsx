@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   Sparkles,
@@ -12,10 +15,56 @@ import {
   Facebook,
   Instagram,
   Linkedin,
+  LogOut,
+  LayoutDashboard,
+  User,
+  Settings,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
 
 export default function Home() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const router = useRouter();
+  const supabase = createClientComponentClient();
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const supabase = createClientComponentClient();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        setIsSignedIn(!!session);
+      } catch (error) {
+        console.error("Error checking auth status:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      setIsSignedIn(false);
+      setUserEmail(null);
+      router.refresh();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
       {/* Animated Background */}
@@ -49,6 +98,91 @@ export default function Home() {
             >
               How It Works
             </Link>
+            {!isLoading && (
+              <div className="flex items-center space-x-4 ml-4">
+                {isSignedIn ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        size="sm"
+                        className="transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg active:scale-100 p-0 h-auto bg-transparent"
+                      >
+                        <img
+                          src="/user-profile.png"
+                          alt="User Profile"
+                          width={40}
+                          height={40}
+                          className="rounded-full transition-transform duration-300"
+                        />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      align="end"
+                      className="w-56 bg-gray-900 border border-gray-800 text-white"
+                    >
+                      {userEmail && (
+                        <>
+                          <div className="px-2 py-1.5 text-sm font-medium text-gray-400 truncate">
+                            {userEmail}
+                          </div>
+                          <DropdownMenuSeparator className="bg-gray-800" />
+                        </>
+                      )}
+                      <DropdownMenuItem className="text-white hover:bg-gray-800 cursor-pointer">
+                        <Link
+                          href="/dashboard"
+                          className="flex items-center w-full"
+                        >
+                          <LayoutDashboard className="mr-2 h-4 w-4" />
+                          <span>Dashboard</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-white hover:bg-gray-800 cursor-pointer">
+                        <Link
+                          href="/profile"
+                          className="flex items-center w-full"
+                        >
+                          <User className="mr-2 h-4 w-4" />
+                          <span>Profile</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-white hover:bg-gray-800 cursor-pointer">
+                        <Link
+                          href="/setting"
+                          className="flex items-center w-full"
+                        >
+                          <Settings className="mr-2 h-4 w-4" />
+                          <span>Settings</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="bg-gray-800" />
+                      <DropdownMenuItem
+                        onClick={handleLogout}
+                        className="text-red-400 hover:text-red-300 hover:bg-gray-800 cursor-pointer"
+                      >
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Log out</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <>
+                    <Link
+                      href="/login"
+                      className="text-white/70 hover:text-white transition-colors"
+                    >
+                      Sign In
+                    </Link>
+                    <Button
+                      size="sm"
+                      className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white border-0 rounded-full px-4"
+                    >
+                      <Link href="/signup">Sign Up</Link>
+                    </Button>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </nav>
@@ -89,10 +223,12 @@ export default function Home() {
                   variant="outline"
                   className="border-white/20 hover:bg-white/10 rounded-full px-8"
                 >
-                  <Link href="#how-it-works" className="flex items-center w-full h-full">
-                  See How It Works
+                  <Link
+                    href="#how-it-works"
+                    className="flex items-center w-full h-full"
+                  >
+                    See How It Works
                   </Link>
-                  
                 </Button>
               </div>
             </div>
@@ -303,7 +439,7 @@ export default function Home() {
                     className="bg-white text-purple-700 hover:bg-white/90 rounded-full px-8"
                   >
                     <Link href="/analyze" className="flex items-center">
-                    Get Started Free <ArrowRight className="ml-2 h-4 w-4" />
+                      Get Started Free <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
                 </div>
@@ -374,7 +510,7 @@ export default function Home() {
                 {["Features", "FAQ"].map((item) => (
                   <li key={item}>
                     <Link
-                      href="#"
+                      href={item === "FAQ" ? "/faq" : "#"}
                       className="text-white/70 hover:text-white transition-colors"
                     >
                       {item}
@@ -387,26 +523,25 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-6">Team Details</h4>
               <ul className="space-y-4">
-              {["About", "Contact", "Privacy", "Terms"].map((item) => {
-  const hrefMap: { [key: string]: string } = {
-    About: "/about",
-    Contact: "/contact",
-    Privacy: "/privacy",
-    Terms: "/terms",
-  };
-  return (
-    <li key={item}>
-      <Link
-        href={hrefMap[item] || "#"}
-        className="text-white/70 hover:text-white transition-colors"
-      >
-        {item}
-      </Link>
-    </li>
-  );
-})}
-
-                      </ul>
+                {["About", "Contact", "Privacy", "Terms"].map((item) => {
+                  const hrefMap: { [key: string]: string } = {
+                    About: "/about",
+                    Contact: "/contact",
+                    Privacy: "/privacy",
+                    Terms: "/terms",
+                  };
+                  return (
+                    <li key={item}>
+                      <Link
+                        href={hrefMap[item] || "#"}
+                        className="text-white/70 hover:text-white transition-colors"
+                      >
+                        {item}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
 

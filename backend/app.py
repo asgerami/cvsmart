@@ -8,6 +8,7 @@ import os
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 import logging
+from auth_middleware import require_auth
 
 load_dotenv()
 
@@ -17,6 +18,41 @@ logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 CORS(app) # Allow all origins for simplicity in development
 
+# Public route 
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'healthy'})
+
+# Protected route
+@app.route('/api/user/profile', methods=['GET'])
+@require_auth
+def get_user_profile():
+    # The user ID is avialable in request.user
+    user_id = request.user
+    user_email = request.user_email
+    
+    return jsonify({
+        'id': user_id,
+        'email': user_email,
+        'profile': {
+            'name': 'User Name',
+            'role': 'User'
+        }
+    })
+
+# Protected route to update user profile
+@app.route('/api/user/profile', methods=['PUT'])
+@require_auth
+def update_user_profile():
+    user_id = request.user
+    data = request.json
+    
+    return jsonify({
+        'id': user_id,
+        'message': 'Profile updated successfully',
+        'updated_fields': data
+    })
+    
 # --- Configuration ---
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'pdf', 'docx'}
