@@ -549,26 +549,6 @@ export default function Home() {
             <p className="text-white/50 text-sm mb-4 md:mb-0">
               © {new Date().getFullYear()} ResumeFlow AI. All rights reserved.
             </p>
-            <div className="flex space-x-6">
-              <Link
-                href="#"
-                className="text-white/50 hover:text-white text-sm transition-colors"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href="#"
-                className="text-white/50 hover:text-white text-sm transition-colors"
-              >
-                Terms of Service
-              </Link>
-              <Link
-                href="#"
-                className="text-white/50 hover:text-white text-sm transition-colors"
-              >
-                Cookies
-              </Link>
-            </div>
           </div>
         </div>
       </footer>
