@@ -22,7 +22,7 @@ export default function RecentActivity() {
               <p className="text-sm font-medium leading-none text-white/80">
                 Account Created
               </p>
-              <p className="text-sm text-white/60">Welcome to ResumeFlow AI!</p>
+              <p className="text-sm text-white/60">Welcome to CVSmart!</p>
             </div>
             <div className="ml-auto text-sm text-white/50">Just now</div>
           </div>

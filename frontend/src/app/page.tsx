@@ -82,7 +82,7 @@ export default function Home() {
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold tracking-tight">
-              ResumeFlow AI
+              CVSmart
             </span>
           </div>
           <div className="hidden md:flex items-center space-x-8">
@@ -220,16 +220,14 @@ export default function Home() {
                 </Button>
                 <Button
                   size="lg"
-                  variant="outline"
-                  className="border-white/20 hover:bg-white/10 rounded-full px-8"
+                  className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white border-0 rounded-full px-8"
                 >
-                  <Link
-                    href="#how-it-works"
-                    className="flex items-center w-full h-full"
-                  >
-                    See How It Works
+                  <Link href="#how-it-works"
+                    className="flex items-center w-full h-full">
+                    See How It Works <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
+                
               </div>
             </div>
 
@@ -243,7 +241,7 @@ export default function Home() {
                       <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                       <div className="w-3 h-3 rounded-full bg-green-500"></div>
                     </div>
-                    <div className="text-xs text-white/50">ResumeFlow.ai</div>
+                    <div className="text-xs text-white/50">CVSmart.ai</div>
                   </div>
 
                   <div className="space-y-4">
@@ -459,11 +457,11 @@ export default function Home() {
                   <Sparkles className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-xl font-bold tracking-tight">
-                  ResumeFlow AI
+                  CVSmart
                 </span>
               </div>
               <p className="text-white/70 mb-6 max-w-md">
-                ResumeFlow AI uses advanced artificial intelligence to analyze
+                CVSmart uses advanced artificial intelligence to analyze
                 resumes and provide actionable insights to help job seekers land
                 more interviews.
               </p>
@@ -547,7 +545,7 @@ export default function Home() {
 
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-white/50 text-sm mb-4 md:mb-0">
-              © {new Date().getFullYear()} ResumeFlow AI. All rights reserved.
+              © {new Date().getFullYear()} CVSmart. All rights reserved.
             </p>
           </div>
         </div>

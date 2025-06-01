@@ -271,7 +271,7 @@ export default function ResumeAnalyzer() {
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold tracking-tight">
-                ResumeFlow AI
+                CVSmart
               </span>
             </div>
             <div className="flex space-x-8">
@@ -311,7 +311,7 @@ export default function ResumeAnalyzer() {
               ))}
             </div>
             <p className="text-white/50 text-sm">
-              © {new Date().getFullYear()} ResumeFlow AI. All rights reserved.
+              © {new Date().getFullYear()} CVSmart. All rights reserved.
             </p>
           </div>
         </div>

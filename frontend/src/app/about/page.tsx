@@ -62,13 +62,13 @@ export default function AboutPage() {
   {/* Text on the Left */}
   <div className="md:w-1/2 text-left">
     <p className="mb-4 mt-6">
-      <span className="bg-gradient-to-r font-bold from-purple-400 via-cyan-400 to-fuchsia-400 text-transparent bg-clip-text">ResumeFlow AI</span> is a collaborative initiative led by Software Engineering and Computer Science students in Ethiopia. Our mission is to bridge the gap between Ethiopian job seekers and the increasingly competitive local and global job markets by leveraging the power of artificial intelligence.
+      <span className="bg-gradient-to-r font-bold from-purple-400 via-cyan-400 to-fuchsia-400 text-transparent bg-clip-text">CVSmart</span> is a collaborative initiative led by Software Engineering and Computer Science students in Ethiopia. Our mission is to bridge the gap between Ethiopian job seekers and the increasingly competitive local and global job markets by leveraging the power of artificial intelligence.
     </p>
     <p className="mb-4">
       In today’s fast-paced hiring landscape, resumes are often screened by automated systems known as Applicant Tracking Systems (ATS) before they ever reach a human recruiter. Many qualified candidates are filtered out simply because their resumes are not formatted correctly or lack essential keywords. Additionally, job seekers in Ethiopia face unique challenges, such as high unemployment rates, limited access to professional career development tools, and a lack of awareness about international resume standards.
     </p>
     <p className="mb-4">
-      ResumeFlow AI addresses these challenges head-on. We provide an AI-powered web application that analyzes resumes for structure, content, keyword optimization, and overall ATS compatibility. Our platform offers personalized feedback and guidance, ensuring each resume is both impactful and compliant with modern hiring technologies.
+      CVSmart addresses these challenges head-on. We provide an AI-powered web application that analyzes resumes for structure, content, keyword optimization, and overall ATS compatibility. Our platform offers personalized feedback and guidance, ensuring each resume is both impactful and compliant with modern hiring technologies.
     </p>
   </div>
 
@@ -83,7 +83,7 @@ export default function AboutPage() {
   <div className="md:w-1/2 w-full">
     <img
       src="/1.jpg" // assuming 1.jsx refers to the image name being 1.jpg
-      alt="ResumeFlow AI"
+      alt="CVSmart"
       className="w-full max-h-[30rem] object-cover object-top rounded-xl shadow-lg"
     />
   </div>
@@ -101,7 +101,7 @@ export default function AboutPage() {
       </li>
     </ul>
     <p className="mb-4">
-      By aligning technological innovation with the practical needs of Ethiopian job seekers, ResumeFlow AI empowers individuals to stand out, secure more interview opportunities, and confidently pursue their career goals. Our platform is more than a tool—it’s a step toward reducing unemployment and fostering professional growth across Ethiopia.
+      By aligning technological innovation with the practical needs of Ethiopian job seekers, CVSmart empowers individuals to stand out, secure more interview opportunities, and confidently pursue their career goals. Our platform is more than a tool—it’s a step toward reducing unemployment and fostering professional growth across Ethiopia.
     </p>
     <p>
       Together, we are building a future where every qualified Ethiopian has the tools to succeed—one resume at a time.

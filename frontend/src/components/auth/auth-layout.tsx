@@ -35,7 +35,7 @@ export default function AuthLayout({ children, title }: AuthLayoutProps) {
         </div>
 
         <div className="text-center text-white/50 text-sm mt-6">
-          <p>ResumeFlow AI © {new Date().getFullYear()}</p>
+          <p>CVSmart © {new Date().getFullYear()}</p>
         </div>
       </div>
     </div>
