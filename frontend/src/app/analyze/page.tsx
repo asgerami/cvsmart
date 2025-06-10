@@ -270,9 +270,7 @@ export default function ResumeAnalyzer() {
               <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-md flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold tracking-tight">
-                CVSmart
-              </span>
+              <span className="text-xl font-bold tracking-tight">CVSmart</span>
             </div>
             <div className="flex space-x-8">
               {[
@@ -324,28 +322,51 @@ function AnalysisDisplay({ analysis }: { analysis: string }) {
   // Process the analysis text to enhance formatting
   const processedAnalysis = analysis
     // Replace markdown headers with styled sections
-    .replace(/^# (.*$)/gm, '<div class="text-2xl font-bold mb-4 text-white">$1</div>')
-    .replace(/^## (.*$)/gm, '<div class="text-xl font-semibold mb-2 text-white">$1</div>')
-    .replace(/^### (.*$)/gm, '<div class="text-lg font-medium mt-6 mb-3 text-white">$1</div>')
+    .replace(
+      /^# (.*$)/gm,
+      '<div class="text-2xl font-bold mb-4 text-white">$1</div>'
+    )
+    .replace(
+      /^## (.*$)/gm,
+      '<div class="text-xl font-semibold mb-2 text-white">$1</div>'
+    )
+    .replace(
+      /^### (.*$)/gm,
+      '<div class="text-lg font-medium mt-6 mb-3 text-white">$1</div>'
+    )
     // Handle bullet points
-    .replace(/^- (.*$)/gm, '<div class="flex items-start mb-2"><div class="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-2 mr-2"></div><p class="text-white">$1</p></div>')
+    .replace(
+      /^- (.*$)/gm,
+      '<div class="flex items-start mb-2"><div class="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-2 mr-2"></div><p class="text-white">$1</p></div>'
+    )
     // Handle numbered lists
-    .replace(/^(\d+)\. (.*$)/gm, '<div class="flex items-start mb-3"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center mr-3 flex-shrink-0"><span class="text-xs font-medium text-white">$1</span></div><p class="text-white">$2</p></div>')
+    .replace(
+      /^(\d+)\. (.*$)/gm,
+      '<div class="flex items-start mb-3"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center mr-3 flex-shrink-0"><span class="text-xs font-medium text-white">$1</span></div><p class="text-white">$2</p></div>'
+    )
     // Handle bold text (replace ** with styled spans)
-    .replace(/\*\*(.*?)\*\*/g, '<span class="font-semibold text-purple-400">$1</span>')
+    .replace(
+      /\*\*(.*?)\*\*/g,
+      '<span class="font-semibold text-purple-400">$1</span>'
+    )
     // Preserve emojis and add styling to sections
-    .replace(/(✅|⚠️|❌|🌟|🔍|🛠️|📊|🔑|✏️|📁|🖋️|🎯)/g, '<span class="text-xl mr-1">$1</span>');
+    .replace(
+      /(✅|⚠️|❌|🌟|🔍|🛠️|📊|🔑|✏️|📁|🖋️|🎯)/g,
+      '<span class="text-xl mr-1">$1</span>'
+    );
 
   // Split by double newlines to create paragraphs
-  const paragraphs = processedAnalysis.split('\n\n');
+  const paragraphs = processedAnalysis.split("\n\n");
 
   return (
     <div className="analysis-container">
       {paragraphs.map((paragraph, index) => (
-        <div 
-          key={index} 
+        <div
+          key={index}
           className="mb-4"
-          dangerouslySetInnerHTML={{ __html: paragraph.replace(/\n/g, '<br/>') }}
+          dangerouslySetInnerHTML={{
+            __html: paragraph.replace(/\n/g, "<br/>"),
+          }}
         />
       ))}
     </div>
