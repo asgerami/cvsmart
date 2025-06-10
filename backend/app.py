@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+import logging
 import pdfplumber
 from docx import Document
 import google.generativeai as genai
@@ -11,6 +14,16 @@ load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
+
+# Initialize rate limiter
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["100 per hour"]
+)
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 # Configure Gemini API using environment variable
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
@@ -81,17 +94,27 @@ def extract_text_from_docx(file_path):
         text += paragraph.text + "\n"
     return text
 
+@app.before_request
+def require_api_key():
+    api_key = request.headers.get('X-API-KEY')
+    if api_key != os.getenv('AUTHORIZED_API_KEY'):
+        return jsonify({'error': 'Unauthorized access'}), 403
+
+@app.before_request
+def log_request():
+    logging.info(f"Request from {get_remote_address()} to {request.path}")
+
 @app.route('/analyze', methods=['POST'])
+@limiter.limit("10 per minute")
 def analyze_resume():
-    if 'resume' not in request.files:
+    if 'resume' not in request.files or not request.files['resume']:
         return jsonify({'error': 'No resume file uploaded'}), 400
     
-    file = request.files['resume']
     job_description = request.form.get('jobDescription', '')
+    if not job_description or len(job_description) < 10:
+        return jsonify({'error': 'Invalid job description'}), 400
     
-    if not job_description:
-        return jsonify({'error': 'No job description provided'}), 400
-    
+    file = request.files['resume']
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
     
